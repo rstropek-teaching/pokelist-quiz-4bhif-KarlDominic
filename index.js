@@ -33,110 +33,119 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var offset = -20;
-var isNext = false;
-var isPrev = true;
-var html = '';
-var i = 1;
-var childs;
-$("#next").click(function () {
-    offset += 20;
-    (function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var pokelist, j, _i, _a, pokemon;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, $.get('https://pokeapi.co/api/v2/pokemon/?limit=20&offset=' + offset)];
-                    case 1:
-                        pokelist = _b.sent();
-                        $('#pokemons li:lt(' + i + ')').remove();
-                        for (j = i; j >= i - 20; j--) {
-                            $('#' + j).remove();
-                        }
-                        for (_i = 0, _a = pokelist.results; _i < _a.length; _i++) {
-                            pokemon = _a[_i];
-                            html = "<li>" + pokemon.name + "</li>";
-                            $('#pokemons ul').append(html);
-                            html = "<button id='" + i + "' class='detail'>Details</button>";
-                            $('#pokemons ul').append(html);
-                            i++;
-                        }
-                        return [2 /*return*/];
-                }
+$(document).ready(function () {
+    //Offset
+    var offset = -20;
+    var html = '';
+    var i = 1;
+    var childs;
+    //Nächsten 20 Pokemons
+    $("#next").click(function () {
+        offset += 20;
+        (function () {
+            return __awaiter(this, void 0, void 0, function () {
+                var pokelist, j, _i, _a, pokemon;
+                return __generator(this, function (_b) {
+                    switch (_b.label) {
+                        case 0: return [4 /*yield*/, $.get('https://pokeapi.co/api/v2/pokemon/?limit=20&offset=' + offset)];
+                        case 1:
+                            pokelist = _b.sent();
+                            //Löschen der angezeigten Pokemons
+                            $('#pokemons li:lt(' + i + ')').remove();
+                            for (j = i; j >= i - 20; j--) {
+                                $('#' + j).remove();
+                            }
+                            //Hinzufügen der neuen Pokemons
+                            for (_i = 0, _a = pokelist.results; _i < _a.length; _i++) {
+                                pokemon = _a[_i];
+                                html = "<li>" + pokemon.name + "</li>";
+                                $('#pokemons ul').append(html);
+                                html = "<button id='" + i + "' class='detail'>Details</button>";
+                                $('#pokemons ul').append(html);
+                                i++;
+                            }
+                            return [2 /*return*/];
+                    }
+                });
             });
-        });
-    })();
-});
-$("#prev").click(function () {
-    (function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var pokelist, _i, _a, pokemon;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        offset -= 20;
-                        return [4 /*yield*/, $.get('https://pokeapi.co/api/v2/pokemon/?limit=20&offset=' + offset)];
-                    case 1:
-                        pokelist = _b.sent();
-                        $('#pokemons li:lt(' + i + ')').remove();
-                        for (i; i > offset + 1; i--) {
-                            $('#' + i).remove();
-                        }
-                        for (_i = 0, _a = pokelist.results; _i < _a.length; _i++) {
-                            pokemon = _a[_i];
-                            html = "<li>" + pokemon.name + "</li>";
-                            $('#pokemons ul').append(html);
-                            html = "<button id='" + i + "' class='detail'>Details</button>";
-                            $('#pokemons ul').append(html);
-                            i++;
-                        }
-                        return [2 /*return*/];
-                }
+        })();
+    });
+    //Vorherige Pokemons
+    $("#prev").click(function () {
+        (function () {
+            return __awaiter(this, void 0, void 0, function () {
+                var pokelist, _i, _a, pokemon;
+                return __generator(this, function (_b) {
+                    switch (_b.label) {
+                        case 0:
+                            offset -= 20;
+                            return [4 /*yield*/, $.get('https://pokeapi.co/api/v2/pokemon/?limit=20&offset=' + offset)];
+                        case 1:
+                            pokelist = _b.sent();
+                            //Löschen der angezeigten Pokemons
+                            $('#pokemons li:lt(' + i + ')').remove();
+                            for (i; i > offset + 1; i--) {
+                                $('#' + i).remove();
+                            }
+                            //Hinzufügen der neuen Pokemons
+                            for (_i = 0, _a = pokelist.results; _i < _a.length; _i++) {
+                                pokemon = _a[_i];
+                                html = "<li>" + pokemon.name + "</li>";
+                                $('#pokemons ul').append(html);
+                                html = "<button id='" + i + "' class='detail'>Details</button>";
+                                $('#pokemons ul').append(html);
+                                i++;
+                            }
+                            return [2 /*return*/];
+                    }
+                });
             });
-        });
-    })();
-});
-$('body').on('click', '.detail', function () {
-    var id = $(this).attr("id");
-    childs = $('body').children();
-    (function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var pokestat, title, titName, name, ab, titWeight, weight, buttonon, _i, _a, stat, sprite;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, $.get('https://pokeapi.co/api/v2/pokemon/' + id + '/')];
-                    case 1:
-                        pokestat = _b.sent();
-                        $('body').children().remove();
-                        title = "<h1>Details</h1>";
-                        titName = "<p>Name</p>";
-                        name = "<a>" + pokestat.name + "</a><br>";
-                        ab = "<p>Abilities</p>";
-                        titWeight = "<p>Weight</p>";
-                        weight = "<a>" + pokestat.weight + "</a><br>";
-                        buttonon = "<button id='back'>Back to List</button>";
-                        $('body').append(title);
-                        $('body').append(titName);
-                        $('body').append(name);
-                        $('body').append(titWeight);
-                        $('body').append(weight);
-                        $('body').append(ab);
-                        for (_i = 0, _a = pokestat.abilities; _i < _a.length; _i++) {
-                            stat = _a[_i];
-                            html = "<a>" + stat.ability.name + "</a><br>";
-                            $('body').append(html);
-                        }
-                        sprite = "<img src='" + pokestat.sprites.front_default + "'>";
-                        $('body').append(sprite);
-                        $('body').append(buttonon);
-                        return [2 /*return*/];
-                }
+        })();
+    });
+    //Detailansicht
+    $('body').on('click', '.detail', function () {
+        var id = $(this).attr("id");
+        childs = $('body').children();
+        (function () {
+            return __awaiter(this, void 0, void 0, function () {
+                var pokestat, title, titName, name, ab, titWeight, weight, buttonon, _i, _a, stat, sprite;
+                return __generator(this, function (_b) {
+                    switch (_b.label) {
+                        case 0: return [4 /*yield*/, $.get('https://pokeapi.co/api/v2/pokemon/' + id + '/')];
+                        case 1:
+                            pokestat = _b.sent();
+                            $('body').children().remove();
+                            title = "<h1>Details</h1>";
+                            titName = "<p>Name</p>";
+                            name = "<a>" + pokestat.name + "</a><br>";
+                            ab = "<p>Abilities</p>";
+                            titWeight = "<p>Weight</p>";
+                            weight = "<a>" + pokestat.weight + "</a><br>";
+                            buttonon = "<button id='back'>Back to List</button>";
+                            $('body').append(title);
+                            $('body').append(titName);
+                            $('body').append(name);
+                            $('body').append(titWeight);
+                            $('body').append(weight);
+                            $('body').append(ab);
+                            for (_i = 0, _a = pokestat.abilities; _i < _a.length; _i++) {
+                                stat = _a[_i];
+                                html = "<a>" + stat.ability.name + "</a><br>";
+                                $('body').append(html);
+                            }
+                            sprite = "<img src='" + pokestat.sprites.front_default + "'>";
+                            $('body').append(sprite);
+                            $('body').append(buttonon);
+                            return [2 /*return*/];
+                    }
+                });
             });
-        });
-    })();
-});
-$('body').on('click', '#back', function () {
-    $('body').children().remove();
-    console.log(childs);
-    $('body').append(childs[0]);
+        })();
+    });
+    //Versuch die Listenansicht anzuzeigen
+    $('body').on('click', '#back', function () {
+        $('body').children().remove();
+        console.log(childs);
+        $('body').append(childs[0]);
+    });
 });
